@@ -1,79 +1,154 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Plus Studio | 小六升國一菁英成長地</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#1e293b', // Custom darker slate
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body { font-family: 'Noto Sans TC', sans-serif; scroll-behavior: smooth; }
-        /* 玻璃質感特效 */
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
-        /* 懸停上浮效果 */
-        .hover-card { transition: all 0.3s ease; }
-        .hover-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
-        /* 漸層文字 */
-        .text-gradient { background: linear-gradient(to right, #f59e0b, #fcd34d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        body { font-family: 'Inter', 'Noto Sans TC', sans-serif; -webkit-font-smoothing: antialiased; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Animations */
+        .animate-fadeInUp { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(20px); }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .tab-content.active { display: block; opacity: 1; }
+
+        /* Glassmorphism Utilities */
+        .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(226, 232, 240, 0.6); }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); }
+        
+        /* Text Gradients */
+        .text-gradient-gold { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .text-gradient-blue { background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 selection:bg-amber-100 selection:text-amber-800">
+<body class="text-slate-700 bg-slate-50 selection:bg-amber-100 selection:text-amber-900">
 
-    <nav class="fixed w-full z-50 glass">
+    <nav class="fixed w-full glass-nav z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <div class="flex items-center gap-4">
-                    <div class="text-2xl font-bold text-slate-900 tracking-tighter">
-                        A Plus <span class="text-amber-600">Studio</span>
+                <div class="flex items-center group cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="text-2xl font-black text-slate-900 tracking-tighter">
+                        A Plus <span class="text-amber-500">Studio</span>
                     </div>
-                    <span class="hidden md:block text-sm font-medium text-slate-500 border-l pl-3 border-slate-300">
+                    <span class="ml-4 hidden lg:block text-xs font-bold tracking-widest text-slate-400 uppercase border-l-2 pl-4 border-slate-200">
                         小六升國一菁英成長地
                     </span>
                 </div>
                 
-                <div class="hidden md:flex space-x-8 items-center font-medium text-slate-600">
-                    <button onclick="document.getElementById('philosophy').scrollIntoView({behavior: 'smooth'})" class="hover:text-amber-600 transition">核心理念</button>
-                    <button onclick="document.getElementById('courses').scrollIntoView({behavior: 'smooth'})" class="hover:text-amber-600 transition">兩大核心</button>
-                    <button onclick="document.getElementById('roadmap').scrollIntoView({behavior: 'smooth'})" class="hover:text-amber-600 transition">成長藍圖</button>
-                    <button onclick="document.getElementById('promo').scrollIntoView({behavior: 'smooth'})" class="hover:text-amber-600 transition">應援方案</button>
-                    <button onclick="document.getElementById('locations').scrollIntoView({behavior: 'smooth'})" class="hover:text-amber-600 transition">校區資訊</button>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfRWH-6lzbnvppO3cf92TSmJK4NyxzSS3w3r0I3Mq8pjKFk8w/viewform" target="_blank" 
-                       class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-2.5 rounded-full font-bold shadow-lg shadow-amber-500/30 transition transform hover:-translate-y-0.5 flex items-center gap-2">
-                        立即報名數理資優班 <i data-lucide="external-link" class="w-4 h-4"></i>
-                    </a>
+                <div class="hidden md:flex space-x-1 items-center">
+                    <button onclick="scrollToSection('philosophy')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-amber-600 transition rounded-full hover:bg-amber-50">核心理念</button>
+                    <button onclick="scrollToSection('courses')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-amber-600 transition rounded-full hover:bg-amber-50">兩大核心</button>
+                    <button onclick="scrollToSection('roadmap')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-amber-600 transition rounded-full hover:bg-amber-50">成長藍圖</button>
+                    <button onclick="scrollToSection('promo')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-amber-600 transition rounded-full hover:bg-amber-50">應援方案</button>
+                    <button onclick="scrollToSection('locations')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-amber-600 transition rounded-full hover:bg-amber-50">校區資訊</button>
+                    <button 
+                        onclick="handleRegistration()"
+                        class="ml-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white px-6 py-2.5 rounded-full font-bold shadow-lg shadow-amber-500/30 transition-all transform hover:-translate-y-0.5 active:scale-95 flex items-center gap-2 text-sm"
+                    >
+                        立即報名 <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
                 </div>
+
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMenu()" class="text-slate-600 hover:text-slate-900 p-2 rounded-lg hover:bg-slate-100 transition">
+                        <i data-lucide="menu" id="menu-icon" class="w-7 h-7"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-slate-100 absolute w-full shadow-2xl">
+            <div class="px-6 pt-4 pb-8 space-y-3">
+                <button onclick="scrollToSection('philosophy')" class="block w-full text-left px-4 py-3 text-slate-700 font-bold hover:bg-slate-50 rounded-xl transition">核心理念</button>
+                <button onclick="scrollToSection('courses')" class="block w-full text-left px-4 py-3 text-slate-700 font-bold hover:bg-slate-50 rounded-xl transition">兩大核心</button>
+                <button onclick="scrollToSection('roadmap')" class="block w-full text-left px-4 py-3 text-slate-700 font-bold hover:bg-slate-50 rounded-xl transition">成長藍圖</button>
+                <button onclick="scrollToSection('promo')" class="block w-full text-left px-4 py-3 text-slate-700 font-bold hover:bg-slate-50 rounded-xl transition">應援方案</button>
+                <button 
+                    onclick="handleRegistration()"
+                    class="w-full mt-6 bg-amber-500 text-white px-4 py-4 rounded-xl font-bold text-center flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20"
+                >
+                    立即報名數理資優班 <i data-lucide="external-link" class="w-5 h-5"></i>
+                </button>
             </div>
         </div>
     </nav>
 
-    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 bg-slate-900 text-white overflow-hidden">
-        <div class="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center"></div>
-        <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800/90"></div>
+    <section class="relative pt-32 pb-24 lg:pt-48 lg:pb-40 bg-slate-900 text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center mix-blend-overlay"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/95 to-slate-900"></div>
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="max-w-3xl">
-                <div class="inline-flex items-center space-x-2 bg-amber-500/20 border border-amber-500/30 rounded-full px-4 py-1.5 mb-6">
-                    <span class="flex h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span>
-                    <span class="text-amber-400 text-sm font-semibold tracking-wide uppercase">A Plus Studio 小六升國一</span>
+            <div class="max-w-4xl animate-fadeInUp">
+                <div class="inline-flex items-center space-x-3 bg-white/5 border border-white/10 rounded-full pl-2 pr-4 py-1.5 mb-8 backdrop-blur-sm">
+                    <span class="flex h-6 w-6 rounded-full bg-amber-500 items-center justify-center">
+                        <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-amber-200 opacity-75"></span>
+                        <i data-lucide="star" class="w-3 h-3 text-white fill-current"></i>
+                    </span>
+                    <span class="text-amber-300 text-sm font-bold tracking-wide uppercase">A Plus Studio 小六升國一</span>
                 </div>
-                <h1 class="text-4xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight">
+                
+                <h1 class="text-4xl sm:text-5xl lg:text-7xl font-black leading-tight mb-8 tracking-tight">
                     從國小到中學，<br/>
                     不只是升學，<br/>
-                    更是<span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">思維的全面進化。</span>
+                    更是<span class="text-gradient-gold">思維的全面進化。</span>
                 </h1>
-                <p class="text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl">
+                
+                <p class="text-lg sm:text-xl lg:text-2xl text-slate-300 mb-12 leading-relaxed max-w-2xl font-light border-l-4 border-amber-500 pl-6">
                     菁英成長地・銜接卓越，啟發天賦
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfRWH-6lzbnvppO3cf92TSmJK4NyxzSS3w3r0I3Mq8pjKFk8w/viewform" target="_blank"
-                       class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg shadow-amber-500/25 transition flex items-center justify-center gap-2">
-                        立即報名數理資優班 <i data-lucide="chevron-right" class="w-5 h-5"></i>
-                    </a>
-                    <button onclick="document.getElementById('roadmap').scrollIntoView({behavior: 'smooth'})"
-                            class="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-lg font-semibold text-lg transition">
+                
+                <div class="flex flex-col sm:flex-row gap-5">
+                    <button 
+                        onclick="handleRegistration()"
+                        class="group bg-amber-500 hover:bg-amber-400 text-slate-900 px-8 py-4 rounded-xl font-bold text-lg shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all hover:scale-105 flex items-center justify-center gap-3"
+                    >
+                        立即報名數理資優班 
+                        <span class="bg-slate-900/10 rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        </span>
+                    </button>
+                    <button 
+                        onclick="scrollToSection('roadmap')"
+                        class="group bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:border-white/30"
+                    >
                         了解成長藍圖
                     </button>
                 </div>
@@ -81,205 +156,251 @@
         </div>
     </section>
 
-    <section id="philosophy" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-amber-600 font-bold tracking-wider uppercase mb-3">Core Philosophy</h2>
-                <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">核心理念：銜接卓越，啟發天賦</h3>
-                <p class="text-slate-600 max-w-3xl mx-auto text-lg leading-relaxed">
-                    「關鍵轉銜期，不只是預習，更是質變的開始。」國中學科的廣度與深度與國小截然不同。我們拒絕填鴨式教學，透過獨創的<strong class="text-slate-900">「資優數理雙週制班」精緻課程</strong>，在小六這一年，為孩子打造穩健的學術底蘊與學習慣性。
+    <section id="philosophy" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center mb-20 animate-fadeInUp">
+                <h2 class="text-amber-600 font-black tracking-widest text-xs uppercase mb-4 bg-amber-50 inline-block px-3 py-1 rounded-md">Core Philosophy</h2>
+                <h3 class="text-3xl md:text-5xl font-black text-slate-900 mb-8">核心理念：銜接卓越，啟發天賦</h3>
+                <p class="text-slate-600 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed font-light">
+                    「關鍵轉銜期，不只是預習，更是質變的開始。」國中學科的廣度與深度與國小截然不同。我們拒絕填鴨式教學，透過獨創的<strong class="text-slate-900 bg-amber-100 px-1 rounded mx-1">「資優數理雙週制班」精緻課程</strong>，在小六這一年，為孩子打造穩健的學術底蘊與學習慣性。
                 </p>
             </div>
 
-            <div id="courses" class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                <div class="bg-blue-50 p-8 rounded-3xl border border-blue-100 hover-card">
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm text-blue-600">
-                            <i data-lucide="calculator" class="w-6 h-6"></i>
+            <div id="courses" class="bg-slate-50 rounded-[2.5rem] p-3 md:p-4 shadow-inner max-w-5xl mx-auto mb-16 border border-slate-100 animate-fadeInUp delay-100">
+                <div class="text-center py-6">
+                   <h3 class="text-xl font-bold text-slate-800">兩大核心學科：深度與廣度的完美平衡</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-3 md:gap-4">
+                    <button 
+                        id="tab-math-btn"
+                        onclick="setActiveTab('math')"
+                        class="group py-6 rounded-[2rem] flex flex-col md:flex-row items-center justify-center gap-3 transition-all duration-300 bg-white shadow-xl shadow-blue-900/5 text-blue-900 ring-2 ring-blue-100/50"
+                    >
+                        <div class="bg-blue-100 p-3 rounded-2xl group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="calculator" class="w-6 h-6 text-blue-600"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900">【國一數學】思維邏輯重構</h3>
+                        <span class="font-bold text-lg md:text-xl tracking-tight">【國一數學】思維邏輯重構</span>
+                    </button>
+                    <button 
+                        id="tab-bio-btn"
+                        onclick="setActiveTab('bio')"
+                        class="group py-6 rounded-[2rem] flex flex-col md:flex-row items-center justify-center gap-3 transition-all duration-300 text-slate-500 hover:text-slate-700 hover:bg-white/50"
+                    >
+                        <div class="bg-slate-200 p-3 rounded-2xl group-hover:bg-green-100 transition-colors duration-300">
+                            <i data-lucide="microscope" class="w-6 h-6 group-hover:text-green-600 transition-colors"></i>
+                        </div>
+                        <span class="font-bold text-lg md:text-xl tracking-tight">【國一生物】科學大腦鍛煉</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="max-w-5xl mx-auto min-h-[400px]">
+                <div id="content-math" class="tab-content active">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="order-2 md:order-1 space-y-8 animate-fadeInUp delay-200">
+                            <div class="bg-blue-50/50 backdrop-blur-sm p-8 rounded-3xl border border-blue-100 relative overflow-hidden">
+                                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-blue-100 rounded-full blur-xl opacity-50"></div>
+                                <p class="text-slate-700 font-bold text-xl mb-6 leading-relaxed relative z-10">
+                                    從算術進化到邏輯演算。<br/>強調觀念內化，建立處理複雜問題的拆解能力。
+                                </p>
+                                <ul class="space-y-6 relative z-10">
+                                    <li class="flex gap-5">
+                                        <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-500/30 flex-shrink-0">1</div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-900 text-lg">基礎紮根</h4>
+                                            <p class="text-slate-600 mt-1">強化四則運算、因倍數與比例觀念。</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex gap-5">
+                                        <div class="w-10 h-10 rounded-xl bg-white border-2 border-blue-200 text-blue-600 flex items-center justify-center font-bold text-lg flex-shrink-0">2</div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-900 text-lg">抽象轉換</h4>
+                                            <p class="text-slate-600 mt-1">引導進入代數與方程式領域。</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="order-1 md:order-2 animate-fadeInUp delay-300">
+                            <div class="rounded-3xl overflow-hidden shadow-2xl shadow-blue-900/20 transform hover:scale-[1.02] transition duration-700 relative group">
+                                <div class="absolute inset-0 bg-blue-900/10 group-hover:bg-transparent transition-colors z-10"></div>
+                                <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Math Class" class="w-full h-96 object-cover" />
+                            </div>
+                        </div>
                     </div>
-                    <p class="text-slate-700 font-medium text-lg mb-6">
-                        從算術進化到邏輯演算。強調觀念內化，建立處理複雜問題的拆解能力。
-                    </p>
-                    <ul class="space-y-4">
-                        <li class="flex gap-4">
-                            <div class="w-8 h-8 rounded-full bg-blue-200 flex items-center justify-center text-blue-700 flex-shrink-0 mt-1 font-bold">1</div>
-                            <div>
-                                <h4 class="font-bold text-slate-900">基礎紮根</h4>
-                                <p class="text-slate-600">強化四則運算、因倍數與比例觀念。</p>
-                            </div>
-                        </li>
-                        <li class="flex gap-4">
-                            <div class="w-8 h-8 rounded-full bg-blue-200 flex items-center justify-center text-blue-700 flex-shrink-0 mt-1 font-bold">2</div>
-                            <div>
-                                <h4 class="font-bold text-slate-900">抽象轉換</h4>
-                                <p class="text-slate-600">引導進入代數與方程式領域。</p>
-                            </div>
-                        </li>
-                    </ul>
                 </div>
 
-                <div class="bg-green-50 p-8 rounded-3xl border border-green-100 hover-card">
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm text-green-600">
-                            <i data-lucide="microscope" class="w-6 h-6"></i>
+                <div id="content-bio" class="tab-content">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="order-2 md:order-1 space-y-8 animate-fadeInUp">
+                            <div class="bg-green-50/50 backdrop-blur-sm p-8 rounded-3xl border border-green-100 relative overflow-hidden">
+                                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-100 rounded-full blur-xl opacity-50"></div>
+                                <p class="text-slate-700 font-bold text-xl mb-6 leading-relaxed relative z-10">
+                                    用實驗證明直覺無法理解的知識。<br/>培養觀察、假設與驗證的科學精神。
+                                </p>
+                                <ul class="space-y-6 relative z-10">
+                                    <li class="flex gap-5">
+                                        <div class="w-10 h-10 rounded-xl bg-green-600 text-white flex items-center justify-center font-bold text-lg shadow-lg shadow-green-500/30 flex-shrink-0">1</div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-900 text-lg">圖像演繹</h4>
+                                            <p class="text-slate-600 mt-1">e化教學將微觀機制具象化。</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex gap-5">
+                                        <div class="w-10 h-10 rounded-xl bg-white border-2 border-green-200 text-green-600 flex items-center justify-center font-bold text-lg flex-shrink-0">2</div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-900 text-lg">感官學習</h4>
+                                            <p class="text-slate-600 mt-1">四大指標實驗(青蛙解剖、液態氮、水火箭、去殼蛋)。</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900">【國一生物】科學大腦鍛煉</h3>
+                        <div class="order-1 md:order-2 animate-fadeInUp">
+                            <div class="rounded-3xl overflow-hidden shadow-2xl shadow-green-900/20 transform hover:scale-[1.02] transition duration-700 relative group">
+                                <div class="absolute inset-0 bg-green-900/10 group-hover:bg-transparent transition-colors z-10"></div>
+                                <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Science Experiment" class="w-full h-96 object-cover" />
+                            </div>
+                        </div>
                     </div>
-                    <p class="text-slate-700 font-medium text-lg mb-6">
-                        用實驗證明直覺無法理解的知識。培養觀察、假設與驗證的科學精神。
-                    </p>
-                    <ul class="space-y-4">
-                        <li class="flex gap-4">
-                            <div class="w-8 h-8 rounded-full bg-green-200 flex items-center justify-center text-green-700 flex-shrink-0 mt-1 font-bold">1</div>
-                            <div>
-                                <h4 class="font-bold text-slate-900">圖像演繹</h4>
-                                <p class="text-slate-600">e化教學將微觀機制具象化。</p>
-                            </div>
-                        </li>
-                        <li class="flex gap-4">
-                            <div class="w-8 h-8 rounded-full bg-green-200 flex items-center justify-center text-green-700 flex-shrink-0 mt-1 font-bold">2</div>
-                            <div>
-                                <h4 class="font-bold text-slate-900">感官學習</h4>
-                                <p class="text-slate-600">四大指標實驗(青蛙解剖、液態氮、水火箭、去殼蛋)。</p>
-                            </div>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="roadmap" class="py-20 bg-slate-100">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-amber-600 font-bold tracking-wider uppercase mb-3">Roadmap</h2>
-                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">| 全年度成長藍圖 (Roadmap)</h3>
-                <p class="text-slate-600 mt-4">我們將升學路徑拆解為四個關鍵階段，陪孩子走得更穩：</p>
+    <section id="roadmap" class="py-24 bg-slate-100 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20 animate-fadeInUp">
+                <h2 class="text-amber-600 font-black tracking-widest text-xs uppercase mb-4 bg-white inline-block px-3 py-1 rounded-md shadow-sm">Roadmap</h2>
+                <h3 class="text-3xl md:text-5xl font-black text-slate-900">| 全年度成長藍圖 (Roadmap)</h3>
+                <p class="text-slate-600 mt-6 text-lg">我們將升學路徑拆解為四個關鍵階段，陪孩子走得更穩：</p>
             </div>
 
-            <div class="space-y-8">
-                
-                <div class="bg-white rounded-2xl p-8 shadow-sm border-l-8 border-blue-500 hover-card">
-                    <div class="flex flex-col md:flex-row md:items-start justify-between mb-6">
+            <div class="grid md:grid-cols-1 gap-10 max-w-4xl mx-auto">
+                <div class="group bg-white rounded-3xl p-8 md:p-10 shadow-xl shadow-slate-200/50 border border-slate-100 hover:border-blue-200 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 w-2 bg-blue-500 group-hover:w-3 transition-all duration-300"></div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-8 border-b border-slate-100">
                         <div>
-                            <span class="text-blue-500 font-bold tracking-wide text-sm uppercase">第一階段 (3月-5月)</span>
-                            <h4 class="text-2xl font-bold text-slate-900 mt-1">扎根期</h4>
+                            <span class="text-blue-600 font-black tracking-wider text-sm uppercase mb-2 block">第一階段 (3月-5月)</span>
+                            <h4 class="text-3xl font-bold text-slate-900">扎根期</h4>
                         </div>
-                        <div class="mt-2 md:mt-0 px-4 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+                        <div class="mt-4 md:mt-0 px-5 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-bold border border-blue-100">
                             目標：跨越難度斷層，儲備基礎戰力。
                         </div>
                     </div>
-                    <div class="space-y-6">
+                    <div class="space-y-8">
                         <div>
-                            <h5 class="font-bold text-lg text-slate-800 mb-2 border-b border-slate-100 pb-2">• 數理資優班 (3/11-5/30)</h5>
-                            <ul class="list-disc pl-5 space-y-2 text-slate-600">
-                                <li><span class="font-semibold text-slate-700">關鍵：</span>破解國中學科難度斷層，建立抽象思考與邏輯推理力。</li>
-                                <li><span class="font-semibold text-slate-700">時間：</span>每週三 13:30-15:30 數學及生物隔週進行課程。</li>
-                                <li class="bg-amber-50 p-3 rounded-lg border border-amber-100 text-amber-900">
-                                    <span class="font-bold text-amber-700">優惠：</span>校內生預繳國中費用，可享「數理資優班」優惠 (原價$3,500，校內生優惠價 <span class="text-xl font-bold">$2,200</span>，教材費另計)。
+                            <h5 class="font-bold text-xl text-slate-800 mb-4 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span> 數理資優班 (3/11-5/30)
+                            </h5>
+                            <ul class="space-y-3 text-slate-600 pl-4 border-l-2 border-slate-100 ml-1">
+                                <li class="pl-4"><span class="font-bold text-slate-800">關鍵：</span>破解國中學科難度斷層，建立抽象思考與邏輯推理力。</li>
+                                <li class="pl-4"><span class="font-bold text-slate-800">時間：</span>每週三 13:30-15:30 數學及生物隔週進行課程。</li>
+                                <li class="ml-4 mt-3 bg-amber-50 p-4 rounded-xl border border-amber-100 text-amber-900 text-sm">
+                                    <span class="font-bold text-amber-600 uppercase text-xs block mb-1">Exclusive Offer</span>
+                                    <span class="font-bold text-amber-700">優惠：</span>校內生預繳國中費用，可享「數理資優班」優惠 (原價$3,500，校內生優惠價 $2,200，教材費另計)。
                                 </li>
                             </ul>
                         </div>
                         <div>
-                            <h5 class="font-bold text-lg text-slate-800 mb-2 border-b border-slate-100 pb-2">● 國際劍橋英檢班</h5>
-                            <ul class="list-disc pl-5 space-y-2 text-slate-600">
-                                <li><span class="font-semibold text-slate-700">關鍵：</span>對標 KET/PET檢定、強化聽、說、讀、寫，儲備國中即戰力。</li>
-                                <li><span class="font-semibold text-slate-700">時間：</span>每週六 3 小時</li>
-                                <li><span class="font-semibold text-slate-700">備註：</span>課程期間皆開放預約試聽。</li>
+                            <h5 class="font-bold text-xl text-slate-800 mb-4 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span> 國際劍橋英檢班
+                            </h5>
+                            <ul class="space-y-3 text-slate-600 pl-4 border-l-2 border-slate-100 ml-1">
+                                <li class="pl-4"><span class="font-bold text-slate-800">關鍵：</span>對標 KET/PET檢定、強化聽、說、讀、寫，儲備國中即戰力。</li>
+                                <li class="pl-4"><span class="font-bold text-slate-800">時間：</span>每週六 3 小時</li>
+                                <li class="pl-4"><span class="font-bold text-slate-800">備註：</span>課程期間皆開放預約試聽。</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl p-8 shadow-sm border-l-8 border-cyan-500 hover-card">
-                    <div class="flex flex-col md:flex-row md:items-start justify-between mb-6">
+                <div class="group bg-white rounded-3xl p-8 md:p-10 shadow-xl shadow-slate-200/50 border border-slate-100 hover:border-cyan-200 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 w-2 bg-cyan-500 group-hover:w-3 transition-all duration-300"></div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-8 border-b border-slate-100">
                         <div>
-                            <span class="text-cyan-500 font-bold tracking-wide text-sm uppercase">第二階段 (6月)</span>
-                            <h4 class="text-2xl font-bold text-slate-900 mt-1">轉換期</h4>
+                            <span class="text-cyan-600 font-black tracking-wider text-sm uppercase mb-2 block">第二階段 (6月)</span>
+                            <h4 class="text-3xl font-bold text-slate-900">轉換期</h4>
                         </div>
-                        <div class="mt-2 md:mt-0 px-4 py-1 bg-cyan-50 text-cyan-700 rounded-full text-sm font-medium">
+                        <div class="mt-4 md:mt-0 px-5 py-2 bg-cyan-50 text-cyan-700 rounded-full text-sm font-bold border border-cyan-100">
                             目標：畢業不留白，從心態到技能的全面轉型。
                         </div>
                     </div>
-                    <div>
-                        <h5 class="font-bold text-lg text-slate-800 mb-4 border-b border-slate-100 pb-2">• 小六升國一畢業後銜接課程 (全天制 9:00-16:00)</h5>
-                        <ul class="list-disc pl-5 space-y-3 text-slate-600">
-                            <li>
-                                <span class="font-semibold text-slate-700">特色：</span>
-                                提前熟習國一單元重點，提前熟習國中各科單元重點，包含：
-                                <ul class="list-circle pl-5 mt-1 text-slate-500">
-                                    <li>社會全科 (地理、歴史、公民、社會科學實驗)</li>
-                                    <li>國一國文 (古文及現代文導讀、強化閱讀、國文寫作)</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <span class="font-semibold text-slate-700">素養：</span>
-                                規劃烘焙、戶外教學等多元課程，培養組織架構與團隊合作力。
-                            </li>
-                        </ul>
+                    <div class="space-y-6">
+                        <div>
+                            <h5 class="font-bold text-xl text-slate-800 mb-4 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-cyan-500"></span> 小六升國一畢業後銜接課程 (全天制 9:00-16:00)
+                            </h5>
+                            <ul class="space-y-3 text-slate-600 pl-4 border-l-2 border-slate-100 ml-1">
+                                <li class="pl-4"><span class="font-bold text-slate-800">特色：</span>提前熟習國一單元重點，提前熟習國中各科單元重點，包含社會全科(地理、歴史、公民、社會科學實驗)、國一國文(古文及現代文導讀、強化閱讀、國文寫作)</li>
+                                <li class="pl-4"><span class="font-bold text-slate-800">素養：</span>規劃烘焙、戶外教學等多元課程，培養組織架構與團隊合作力。</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl p-8 shadow-sm border-l-8 border-amber-500 hover-card relative overflow-hidden">
-                    <div class="flex flex-col md:flex-row md:items-start justify-between mb-6">
+                <div class="group bg-white rounded-3xl p-8 md:p-10 shadow-xl shadow-slate-200/50 border border-slate-100 hover:border-amber-200 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 w-2 bg-amber-500 group-hover:w-3 transition-all duration-300"></div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-8 border-b border-slate-100">
                         <div>
-                            <span class="text-amber-500 font-bold tracking-wide text-sm uppercase">第三階段 (7月-8月)</span>
-                            <h4 class="text-2xl font-bold text-slate-900 mt-1">衝刺期</h4>
+                            <span class="text-amber-500 font-black tracking-wider text-sm uppercase mb-2 block">第三階段 (7月-8月)</span>
+                            <h4 class="text-3xl font-bold text-slate-900">衝刺期</h4>
                         </div>
-                        <div class="mt-2 md:mt-0 px-4 py-1 bg-amber-50 text-amber-700 rounded-full text-sm font-medium">
+                        <div class="mt-4 md:mt-0 px-5 py-2 bg-amber-50 text-amber-700 rounded-full text-sm font-bold border border-amber-100">
                             目標：暑期領先起跑，建立學科絕對優勢。
                         </div>
                     </div>
-                    <ul class="space-y-4 text-slate-700">
-                        <li class="flex items-start gap-3 bg-amber-50/50 p-3 rounded-lg">
-                            <div class="bg-amber-100 text-amber-600 rounded px-2 font-bold text-sm mt-0.5">A</div>
-                            <span><strong>國一先修數/英：</strong>專業授課搭配扎實測驗(數學5hr/週、英文4hr/週)。</span>
+                    <ul class="grid md:grid-cols-2 gap-4 text-slate-700">
+                        <li class="bg-slate-50 p-4 rounded-xl flex items-start gap-3 hover:bg-amber-50 transition-colors">
+                            <div class="bg-amber-500 text-white rounded w-6 h-6 flex items-center justify-center font-bold text-xs mt-0.5 flex-shrink-0">A</div>
+                            <span class="text-sm"><strong>國一先修數/英：</strong>專業授課搭配扎實測驗(數學5hr/週、英文4hr/週)。</span>
                         </li>
-                        <li class="flex items-start gap-3 bg-amber-50/50 p-3 rounded-lg">
-                            <div class="bg-amber-100 text-amber-600 rounded px-2 font-bold text-sm mt-0.5">B</div>
-                            <span><strong>國際英文菁英班：</strong>高階英語實力提升(需通過檢定入班)。</span>
+                        <li class="bg-slate-50 p-4 rounded-xl flex items-start gap-3 hover:bg-amber-50 transition-colors">
+                            <div class="bg-amber-500 text-white rounded w-6 h-6 flex items-center justify-center font-bold text-xs mt-0.5 flex-shrink-0">B</div>
+                            <span class="text-sm"><strong>國際英文菁英班：</strong>高階英語實力提升(需通過檢定入班)。</span>
                         </li>
-                        <li class="flex items-start gap-3 bg-amber-50/50 p-3 rounded-lg">
-                            <div class="bg-amber-100 text-amber-600 rounded px-2 font-bold text-sm mt-0.5">C</div>
-                            <span><strong>國一生物：</strong>全e化電子白板授課，用圖像與動畫讓科學概念簡單上手。</span>
+                        <li class="bg-slate-50 p-4 rounded-xl flex items-start gap-3 hover:bg-amber-50 transition-colors">
+                            <div class="bg-amber-500 text-white rounded w-6 h-6 flex items-center justify-center font-bold text-xs mt-0.5 flex-shrink-0">C</div>
+                            <span class="text-sm"><strong>國一生物：</strong>全e化電子白板授課，用圖像與動畫讓科學概念簡單上手。</span>
                         </li>
-                        <li class="flex items-start gap-3 bg-amber-50/50 p-3 rounded-lg">
-                            <div class="bg-amber-100 text-amber-600 rounded px-2 font-bold text-sm mt-0.5">D</div>
-                            <span><strong>暑期多元營隊：</strong>(以實際課表5月底公告為主)</span>
+                        <li class="bg-slate-50 p-4 rounded-xl flex items-start gap-3 hover:bg-amber-50 transition-colors">
+                            <div class="bg-amber-500 text-white rounded w-6 h-6 flex items-center justify-center font-bold text-xs mt-0.5 flex-shrink-0">D</div>
+                            <span class="text-sm"><strong>暑期多元營隊：</strong>(以實際課表5月底公告為主)</span>
                         </li>
                     </ul>
                 </div>
 
-                 <div class="bg-white rounded-2xl p-8 shadow-sm border-l-8 border-indigo-500 hover-card relative overflow-hidden">
-                    <div class="flex flex-col md:flex-row md:items-start justify-between mb-6">
+                 <div class="group bg-white rounded-3xl p-8 md:p-10 shadow-xl shadow-slate-200/50 border border-slate-100 hover:border-indigo-200 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 w-2 bg-indigo-500 group-hover:w-3 transition-all duration-300"></div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-8 border-b border-slate-100">
                         <div>
-                            <span class="text-indigo-500 font-bold tracking-wide text-sm uppercase">第四階段 (9月開學)</span>
-                            <h4 class="text-2xl font-bold text-slate-900 mt-1">耶加中學部課程開始-啟航期</h4>
+                            <span class="text-indigo-500 font-black tracking-wider text-sm uppercase mb-2 block">第四階段 (9月開學)</span>
+                            <h4 class="text-3xl font-bold text-slate-900">耶加中學部課程開始-啟航期</h4>
                         </div>
-                        <div class="mt-2 md:mt-0 px-4 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium">
+                        <div class="mt-4 md:mt-0 px-5 py-2 bg-indigo-50 text-indigo-700 rounded-full text-sm font-bold border border-indigo-100">
                             目標：穩定步入軌道，展現卓越成效。
                         </div>
                     </div>
-                    <div class="space-y-4 text-slate-700">
-                        <p class="font-bold text-lg">開課時間：9月開學</p>
-                        <div class="bg-indigo-50 p-4 rounded-xl">
-                             <p class="font-bold text-indigo-900 mb-2">● 開課班級：</p>
-                             <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-3 py-1 bg-white rounded-full text-sm font-bold text-indigo-600 shadow-sm">國一英文 JE7/J7</span>
-                                <span class="px-3 py-1 bg-white rounded-full text-sm font-bold text-indigo-600 shadow-sm">國一數學 JM7</span>
-                                <span class="px-3 py-1 bg-white rounded-full text-sm font-bold text-indigo-600 shadow-sm">國一生物 BIO</span>
-                             </div>
-                             
-                             <p class="font-bold text-indigo-900 mb-2">● 課程特色：</p>
-                             <ul class="list-disc pl-5 space-y-1 text-slate-700">
-                                 <li>國一英文每週共板書授課3小時，測驗練習1小時</li>
-                                 <li>國一數學每週共板書授課3小時，測驗練習2小時</li>
-                                 <li>國一生物每週共板書授課3小時</li>
-                             </ul>
+                    <div class="space-y-5 text-slate-700">
+                        <p class="font-bold flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4 text-indigo-500"></i> 開課時間：9月開學</p>
+                        <p class="font-medium bg-indigo-50/50 p-3 rounded-lg inline-block text-indigo-900">● 開課班級：國一英文JE7/J7、國一數學JM7、國一生物 BIO</p>
+                        <div class="bg-slate-50 p-6 rounded-2xl">
+                            <p class="font-bold mb-4 text-slate-900">● 課程特色：</p>
+                            <ul class="space-y-2">
+                                <li class="flex items-center gap-3">
+                                    <i data-lucide="check" class="w-4 h-4 text-indigo-500"></i> 國一英文每週共板書授課3小時，測驗練習1小時
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i data-lucide="check" class="w-4 h-4 text-indigo-500"></i> 國一數學每週共板書授課3小時，測驗練習2小時
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i data-lucide="check" class="w-4 h-4 text-indigo-500"></i> 國一生物每週共板書授課3小時
+                                </li>
+                            </ul>
                         </div>
-                        <p class="text-sm text-slate-500 bg-slate-100 p-3 rounded-lg flex items-center gap-2">
+                        <p class="text-sm text-slate-500 mt-4 flex items-center gap-2">
                             <i data-lucide="info" class="w-4 h-4"></i>
                             備註：09月開學課表將在六月公布。
                         </p>
@@ -291,127 +412,136 @@
     </section>
 
     <section id="promo" class="py-24 bg-slate-900 text-white relative overflow-hidden">
-        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[30rem] h-[30rem] bg-amber-500/10 rounded-full blur-[80px]"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-[30rem] h-[30rem] bg-blue-500/10 rounded-full blur-[80px]"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-16">
+            <div class="text-center mb-20">
                 <h2 class="text-amber-400 font-bold tracking-wider uppercase mb-3 flex items-center justify-center gap-2">
                     <i data-lucide="gift" class="w-5 h-5"></i> Exclusive Offer
                 </h2>
-                <h3 class="text-3xl md:text-5xl font-bold mb-6">| 耶加直升應援活動方案 (校內生適用)</h3>
+                <h3 class="text-3xl md:text-5xl font-black mb-6 tracking-tight">| 耶加直升應援活動方案 (校內生適用)</h3>
             </div>
 
-            <div class="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                <div class="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10 hover:border-amber-500/50 transition duration-300">
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center text-slate-900 shadow-[0_0_15px_rgba(245,158,11,0.5)]">
-                            <i data-lucide="star" class="w-6 h-6"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-2xl font-bold">1. 校內家長支線：【直升應援】</h4>
-                        </div>
+            <div class="grid lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
+                <div class="glass-card rounded-[2rem] p-10 hover:border-amber-500/30 transition duration-500 group relative">
+                    <div class="absolute -top-6 left-10 bg-gradient-to-br from-amber-400 to-amber-600 w-16 h-16 rounded-2xl flex items-center justify-center text-slate-900 shadow-lg shadow-amber-500/40 transform -rotate-6 group-hover:rotate-0 transition-transform duration-300">
+                        <i data-lucide="star" class="w-8 h-8 fill-current"></i>
                     </div>
-                    <ul class="space-y-4">
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="text-amber-400 w-5 h-5 flex-shrink-0 mt-1"></i>
-                            <span><strong>適用對象：</strong>現有耶加小六家長。</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="text-amber-400 w-5 h-5 flex-shrink-0 mt-1"></i>
-                            <span>
-                                <strong>報名優惠：</strong>預繳$3,000元報名耶加中學部，數理資優班學費由$3,500 &gt;&gt;&gt; <span class="text-amber-400 font-bold text-xl">$2,200</span> (教材費另計)。
+                    <div class="mt-6 mb-8">
+                        <h4 class="text-2xl font-bold">1. 校內家長支線：<br/><span class="text-amber-400 text-3xl">【直升應援】</span></h4>
+                    </div>
+                    <ul class="space-y-6">
+                        <li class="flex items-start gap-4">
+                            <div class="bg-white/10 p-1.5 rounded-full mt-0.5"><i data-lucide="check" class="text-amber-400 w-4 h-4"></i></div>
+                            <span class="text-slate-300 leading-relaxed">
+                                <strong class="text-white">適用對象：</strong>現有耶加小六家長。
                             </span>
                         </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="text-amber-400 w-5 h-5 flex-shrink-0 mt-1"></i>
-                            <span>
-                                <strong>介紹獎勵：</strong>成功介紹一位朋友報名中學部並預繳$3,000元，雙方各享$500折價券。
+                        <li class="flex items-start gap-4">
+                            <div class="bg-white/10 p-1.5 rounded-full mt-0.5"><i data-lucide="check" class="text-amber-400 w-4 h-4"></i></div>
+                            <span class="text-slate-300 leading-relaxed">
+                                <strong class="text-white">報名優惠：</strong>預繳$3,000元報名耶加中學部，數理資優班學費由$3,500 &gt;&gt;&gt; <span class="text-amber-400 font-bold text-xl bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">$2,200</span> (教材費另計)。
                             </span>
                         </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="text-amber-400 w-5 h-5 flex-shrink-0 mt-1"></i>
-                            <span><strong>抽獎權限：</strong>預繳成功即自動獲得iPad、AirPods 抽獎資格。</span>
+                         <li class="flex items-start gap-4">
+                            <div class="bg-white/10 p-1.5 rounded-full mt-0.5"><i data-lucide="check" class="text-amber-400 w-4 h-4"></i></div>
+                            <span class="text-slate-300 leading-relaxed">
+                                <strong class="text-white">介紹獎勵：</strong>成功介紹一位朋友報名中學部並預繳$3,000元，雙方各享$500折價券。
+                            </span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="bg-white/10 p-1.5 rounded-full mt-0.5"><i data-lucide="check" class="text-amber-400 w-4 h-4"></i></div>
+                            <span class="text-slate-300 leading-relaxed">
+                                <strong class="text-white">抽獎權限：</strong>預繳成功即自動獲得iPad、AirPods 抽獎資格。
+                            </span>
                         </li>
                     </ul>
                 </div>
 
-                <div class="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10 hover:border-blue-400/50 transition duration-300">
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-                            <i data-lucide="users" class="w-6 h-6"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-2xl font-bold">2. 學生支線：【友我罩你】</h4>
-                        </div>
+                <div class="glass-card rounded-[2rem] p-10 hover:border-blue-400/30 transition duration-500 group relative">
+                    <div class="absolute -top-6 left-10 bg-gradient-to-br from-blue-400 to-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-500/40 transform rotate-6 group-hover:rotate-0 transition-transform duration-300">
+                        <i data-lucide="users" class="w-8 h-8"></i>
                     </div>
-                    <ul class="space-y-4">
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="text-blue-400 w-5 h-5 flex-shrink-0 mt-1"></i>
-                            <span><strong>適用對象：</strong>在班學生。</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="text-blue-400 w-5 h-5 flex-shrink-0 mt-1"></i>
-                            <span>
-                                <strong>獎金機制(最高$1,000)：</strong><br/>
-                                <span class="pl-2 block pt-1 text-slate-300">○ 階段1：被介紹人報名「數理資優班」 &gt;&gt;&gt;&gt; 核發 $500獎學金。</span>
-                                <span class="pl-2 block pt-1 text-slate-300">○ 階段2：被介紹人完成「開學註冊」 &gt;&gt;&gt;&gt; 核發 $500獎學金。</span>
+                    <div class="mt-6 mb-8">
+                        <h4 class="text-2xl font-bold">2. 學生支線：<br/><span class="text-blue-400 text-3xl">【友我罩你】</span></h4>
+                    </div>
+                    <ul class="space-y-6">
+                         <li class="flex items-start gap-4">
+                            <div class="bg-white/10 p-1.5 rounded-full mt-0.5"><i data-lucide="check" class="text-blue-400 w-4 h-4"></i></div>
+                            <span class="text-slate-300 leading-relaxed">
+                                <strong class="text-white">適用對象：</strong>在班學生。
                             </span>
                         </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="text-blue-400 w-5 h-5 flex-shrink-0 mt-1"></i>
-                            <span><strong>抽獎機會：</strong>每成功介紹1人獲1次抽獎機會，採累計制(介紹越多，中獎率越高)</span>
+                        <li class="flex items-start gap-4">
+                            <div class="bg-white/10 p-1.5 rounded-full mt-0.5"><i data-lucide="check" class="text-blue-400 w-4 h-4"></i></div>
+                            <span class="text-slate-300 leading-relaxed">
+                                <strong class="text-white">獎金機制(最高$1,000)：</strong><br/>
+                                <span class="block mt-2 pl-4 border-l border-white/10">
+                                    ○ 階段1：被介紹人報名「數理資優班」 &gt;&gt;&gt;&gt; <span class="text-blue-300">核發 $500獎學金。</span><br/>
+                                    ○ 階段2：被介紹人完成「開學註冊」 &gt;&gt;&gt;&gt; <span class="text-blue-300">核發 $500獎學金。</span>
+                                </span>
+                            </span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="bg-white/10 p-1.5 rounded-full mt-0.5"><i data-lucide="check" class="text-blue-400 w-4 h-4"></i></div>
+                            <span class="text-slate-300 leading-relaxed">
+                                <strong class="text-white">抽獎機會：</strong>每成功介紹1人獲1次抽獎機會，採累計制(介紹越多，中獎率越高)
+                            </span>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <div class="mt-12 text-center">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfRWH-6lzbnvppO3cf92TSmJK4NyxzSS3w3r0I3Mq8pjKFk8w/viewform" target="_blank" 
-                   class="bg-amber-500 hover:bg-amber-600 text-white px-10 py-4 rounded-full font-bold text-xl shadow-[0_0_20px_rgba(245,158,11,0.5)] transition transform hover:scale-105 inline-flex items-center justify-center gap-3">
-                    立即報名數理資優班 <i data-lucide="external-link" class="w-6 h-6"></i>
-                </a>
+            <div class="mt-16 text-center">
+                <button 
+                    onclick="handleRegistration()"
+                    class="group bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white px-12 py-5 rounded-full font-bold text-xl shadow-[0_0_40px_rgba(245,158,11,0.4)] transition-all transform hover:scale-105 flex items-center justify-center gap-3 mx-auto"
+                >
+                    立即報名數理資優班 <i data-lucide="external-link" class="w-6 h-6 group-hover:translate-x-1 transition-transform"></i>
+                </button>
             </div>
         </div>
     </section>
 
-    <section id="locations" class="py-20 bg-white">
+    <section id="locations" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-slate-500 font-bold tracking-wider uppercase mb-3">Locations</h2>
-                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">耶加中學部：專業校區分布</h3>
+            <div class="text-center mb-16 animate-fadeInUp">
+                <h2 class="text-slate-400 font-bold tracking-wider uppercase mb-3">Locations</h2>
+                <h3 class="text-3xl md:text-5xl font-black text-slate-900">耶加中學部：專業校區分布</h3>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="group p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:border-amber-200 transition duration-300">
-                    <div class="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-500 transition">
-                        <i data-lucide="map-pin" class="w-6 h-6"></i>
+                <div class="group p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 hover:shadow-2xl hover:shadow-slate-200 hover:border-amber-200 transition duration-500 text-center">
+                    <div class="w-16 h-16 bg-white text-slate-800 rounded-2xl flex items-center justify-center mb-8 mx-auto shadow-md group-hover:bg-amber-500 group-hover:text-white transition-all duration-300 transform group-hover:rotate-6">
+                        <i data-lucide="map-pin" class="w-8 h-8"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-2">旗艦校 A Plus STUDIO</h4>
-                    <p class="text-slate-500 text-sm mb-4">文府國中對面/有福山國中接駁專車</p>
-                    <a href="tel:07-310-8096" class="flex items-center gap-2 text-slate-700 font-bold hover:text-amber-600 transition">
+                    <h4 class="text-2xl font-bold text-slate-900 mb-3">旗艦校 A Plus STUDIO</h4>
+                    <p class="text-slate-500 text-sm mb-6 font-medium">文府國中對面/有福山國中接駁專車</p>
+                    <a href="tel:07-310-8096" class="inline-flex items-center gap-2 text-slate-700 font-bold hover:text-amber-600 transition bg-white px-6 py-2 rounded-full border border-slate-200 hover:border-amber-500">
                         <i data-lucide="phone" class="w-4 h-4"></i> 07-310-8096
                     </a>
                 </div>
 
-                <div class="group p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:border-amber-200 transition duration-300">
-                    <div class="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-500 transition">
-                        <i data-lucide="map-pin" class="w-6 h-6"></i>
+                <div class="group p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 hover:shadow-2xl hover:shadow-slate-200 hover:border-amber-200 transition duration-500 text-center">
+                    <div class="w-16 h-16 bg-white text-slate-800 rounded-2xl flex items-center justify-center mb-8 mx-auto shadow-md group-hover:bg-amber-500 group-hover:text-white transition-all duration-300 transform group-hover:rotate-6">
+                        <i data-lucide="map-pin" class="w-8 h-8"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-2">耶加中學-左新校區</h4>
-                    <p class="text-slate-500 text-sm mb-4">左營區曾子路290號</p>
-                    <a href="tel:07-345-4681" class="flex items-center gap-2 text-slate-700 font-bold hover:text-amber-600 transition">
+                    <h4 class="text-2xl font-bold text-slate-900 mb-3">耶加中學-左新校區</h4>
+                    <p class="text-slate-500 text-sm mb-6 font-medium">左營區曾子路290號</p>
+                    <a href="tel:07-345-4681" class="inline-flex items-center gap-2 text-slate-700 font-bold hover:text-amber-600 transition bg-white px-6 py-2 rounded-full border border-slate-200 hover:border-amber-500">
                         <i data-lucide="phone" class="w-4 h-4"></i> 07-345-4681
                     </a>
                 </div>
 
-                <div class="group p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:border-amber-200 transition duration-300">
-                    <div class="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-500 transition">
-                        <i data-lucide="map-pin" class="w-6 h-6"></i>
+                <div class="group p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 hover:shadow-2xl hover:shadow-slate-200 hover:border-amber-200 transition duration-500 text-center">
+                    <div class="w-16 h-16 bg-white text-slate-800 rounded-2xl flex items-center justify-center mb-8 mx-auto shadow-md group-hover:bg-amber-500 group-hover:text-white transition-all duration-300 transform group-hover:rotate-6">
+                        <i data-lucide="map-pin" class="w-8 h-8"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-2">耶加中學-龍華校區</h4>
-                    <p class="text-slate-500 text-sm mb-4">鼓山區富農路306號</p>
-                    <a href="tel:07-522-7221" class="flex items-center gap-2 text-slate-700 font-bold hover:text-amber-600 transition">
+                    <h4 class="text-2xl font-bold text-slate-900 mb-3">耶加中學-龍華校區</h4>
+                    <p class="text-slate-500 text-sm mb-6 font-medium">鼓山區富農路306號</p>
+                    <a href="tel:07-522-7221" class="inline-flex items-center gap-2 text-slate-700 font-bold hover:text-amber-600 transition bg-white px-6 py-2 rounded-full border border-slate-200 hover:border-amber-500">
                         <i data-lucide="phone" class="w-4 h-4"></i> 07-5227221
                     </a>
                 </div>
@@ -419,15 +549,87 @@
         </div>
     </section>
 
-    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+    <footer class="bg-slate-950 text-slate-400 py-16 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="mb-4 text-white font-bold text-lg">A Plus Studio</p>
-            <p>© 2026 A Plus Studio 耶加教育機構. All rights reserved.</p>
+            <div class="mb-8">
+                <span class="text-2xl font-black text-white tracking-tighter">
+                    A Plus <span class="text-amber-500">Studio</span>
+                </span>
+            </div>
+            <p class="text-slate-500 text-sm">© 2026 A Plus Studio 耶加教育機構. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
+        // Initialize Lucide Icons
         lucide.createIcons();
+
+        // Registration Link
+        function handleRegistration() {
+            window.open('https://docs.google.com/forms/d/e/1FAIpQLSfRWH-6lzbnvppO3cf92TSmJK4NyxzSS3w3r0I3Mq8pjKFk8w/viewform', '_blank');
+        }
+
+        // Smooth Scroll
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                const navHeight = 80;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+                
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById('mobile-menu');
+                mobileMenu.classList.add('hidden');
+            }
+        }
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            const isOpen = menu.classList.contains('hidden');
+            
+            if (isOpen) {
+                menu.classList.remove('hidden');
+                icon.setAttribute('data-lucide', 'x');
+            } else {
+                menu.classList.add('hidden');
+                icon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        }
+
+        // Tab Logic
+        function setActiveTab(tab) {
+            const mathBtn = document.getElementById('tab-math-btn');
+            const bioBtn = document.getElementById('tab-bio-btn');
+            const mathContent = document.getElementById('content-math');
+            const bioContent = document.getElementById('content-bio');
+
+            if (tab === 'math') {
+                // Update Buttons
+                mathBtn.className = "group py-6 rounded-[2rem] flex flex-col md:flex-row items-center justify-center gap-3 transition-all duration-300 bg-white shadow-xl shadow-blue-900/5 text-blue-900 ring-2 ring-blue-100/50";
+                bioBtn.className = "group py-6 rounded-[2rem] flex flex-col md:flex-row items-center justify-center gap-3 transition-all duration-300 text-slate-500 hover:text-slate-700 hover:bg-white/50";
+                // Show/Hide Content
+                mathContent.classList.add('active');
+                bioContent.classList.remove('active');
+                // Icons update (optional, keeping it simple)
+                mathBtn.querySelector('i').classList.remove('text-slate-400');
+                mathBtn.querySelector('i').classList.add('text-blue-600');
+            } else {
+                // Update Buttons
+                bioBtn.className = "group py-6 rounded-[2rem] flex flex-col md:flex-row items-center justify-center gap-3 transition-all duration-300 bg-white shadow-xl shadow-green-900/5 text-green-900 ring-2 ring-green-100/50";
+                mathBtn.className = "group py-6 rounded-[2rem] flex flex-col md:flex-row items-center justify-center gap-3 transition-all duration-300 text-slate-500 hover:text-slate-700 hover:bg-white/50";
+                // Show/Hide Content
+                bioContent.classList.add('active');
+                mathContent.classList.remove('active');
+            }
+        }
     </script>
 </body>
 </html>
