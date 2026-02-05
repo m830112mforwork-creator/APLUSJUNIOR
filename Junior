@@ -1,0 +1,526 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  BookOpen, 
+  Microscope, 
+  Calculator, 
+  MapPin, 
+  Phone, 
+  Gift, 
+  Users, 
+  ChevronRight, 
+  Star, 
+  Menu, 
+  X,
+  CheckCircle2,
+  ExternalLink
+} from 'lucide-react';
+
+// Color Palette Definition within Tailwind classes:
+// Primary: slate-900 (Deep Blue)
+// Accent: amber-500 (Gold/Elite)
+// Background: slate-50 (Light Gray)
+
+const App = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('math'); // 'math' or 'bio'
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  // Updated Registration Link
+  const handleRegistration = () => {
+    window.open('https://docs.google.com/forms/d/e/1FAIpQLSfRWH-6lzbnvppO3cf92TSmJK4NyxzSS3w3r0I3Mq8pjKFk8w/viewform', '_blank');
+  };
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
+    }
+  };
+
+  return (
+    <div className="font-sans text-slate-800 bg-slate-50 min-h-screen">
+      
+      {/* Navigation */}
+      <nav className="fixed w-full bg-white/95 backdrop-blur-sm shadow-md z-40 transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center">
+              <div className="text-2xl font-bold text-slate-900 tracking-tighter">
+                A Plus <span className="text-amber-600">Studio</span>
+              </div>
+              <span className="ml-3 hidden md:block text-sm font-medium text-slate-500 border-l pl-3 border-slate-300">
+                小六升國一菁英成長地
+              </span>
+            </div>
+            
+            {/* Desktop Menu */}
+            <div className="hidden md:flex space-x-8 items-center">
+              <button onClick={() => scrollToSection('philosophy')} className="text-slate-600 hover:text-amber-600 font-medium transition">核心理念</button>
+              <button onClick={() => scrollToSection('courses')} className="text-slate-600 hover:text-amber-600 font-medium transition">兩大核心</button>
+              <button onClick={() => scrollToSection('roadmap')} className="text-slate-600 hover:text-amber-600 font-medium transition">成長藍圖</button>
+              <button onClick={() => scrollToSection('promo')} className="text-slate-600 hover:text-amber-600 font-medium transition">應援方案</button>
+              <button onClick={() => scrollToSection('locations')} className="text-slate-600 hover:text-amber-600 font-medium transition">校區資訊</button>
+              <button 
+                onClick={handleRegistration}
+                className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-2.5 rounded-full font-bold shadow-lg shadow-amber-500/30 transition transform hover:-translate-y-0.5 flex items-center gap-2"
+              >
+                立即報名數理資優班 <ExternalLink size={16} />
+              </button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden flex items-center">
+              <button onClick={toggleMenu} className="text-slate-600 hover:text-slate-900 p-2">
+                {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Menu Dropdown */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-t border-slate-100 shadow-xl absolute w-full">
+            <div className="px-4 pt-2 pb-6 space-y-2">
+              <button onClick={() => scrollToSection('philosophy')} className="block w-full text-left px-3 py-3 text-slate-600 font-medium border-b border-slate-50">核心理念</button>
+              <button onClick={() => scrollToSection('courses')} className="block w-full text-left px-3 py-3 text-slate-600 font-medium border-b border-slate-50">兩大核心</button>
+              <button onClick={() => scrollToSection('roadmap')} className="block w-full text-left px-3 py-3 text-slate-600 font-medium border-b border-slate-50">成長藍圖</button>
+              <button onClick={() => scrollToSection('promo')} className="block w-full text-left px-3 py-3 text-slate-600 font-medium border-b border-slate-50">應援方案</button>
+              <button 
+                onClick={handleRegistration}
+                className="w-full mt-4 bg-amber-500 text-white px-3 py-3 rounded-lg font-bold text-center flex items-center justify-center gap-2"
+              >
+                立即報名數理資優班 <ExternalLink size={18} />
+              </button>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 bg-slate-900 text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800/90"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center space-x-2 bg-amber-500/20 border border-amber-500/30 rounded-full px-4 py-1.5 mb-6">
+              <span className="flex h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <span className="text-amber-400 text-sm font-semibold tracking-wide uppercase">A Plus Studio 小六升國一</span>
+            </div>
+            <h1 className="text-4xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight">
+              從國小到中學，<br/>
+              不只是升學，<br/>
+              更是<span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">思維的全面進化。</span>
+            </h1>
+            <p className="text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl">
+              菁英成長地・銜接卓越，啟發天賦
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button 
+                onClick={handleRegistration}
+                className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg shadow-amber-500/25 transition flex items-center justify-center gap-2"
+              >
+                立即報名數理資優班 <ChevronRight size={20} />
+              </button>
+              <button 
+                onClick={() => scrollToSection('roadmap')}
+                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-lg font-semibold text-lg transition"
+              >
+                了解成長藍圖
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Philosophy Section */}
+      <section id="philosophy" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-amber-600 font-bold tracking-wider uppercase mb-3">Core Philosophy</h2>
+            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">核心理念：銜接卓越，啟發天賦</h3>
+            <p className="text-slate-600 max-w-3xl mx-auto text-lg leading-relaxed">
+              「關鍵轉銜期，不只是預習，更是質變的開始。」國中學科的廣度與深度與國小截然不同。我們拒絕填鴨式教學，透過獨創的<strong className="text-slate-900">「資優數理雙週制班」精緻課程</strong>，在小六這一年，為孩子打造穩健的學術底蘊與學習慣性。
+            </p>
+          </div>
+
+          {/* Interactive Course Tabs */}
+          <div id="courses" className="bg-slate-50 rounded-3xl p-2 shadow-inner max-w-5xl mx-auto mb-12">
+            <div className="text-center py-4">
+               <h3 className="text-xl font-bold text-slate-800">兩大核心學科：深度與廣度的完美平衡</h3>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <button 
+                onClick={() => setActiveTab('math')}
+                className={`py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 ${activeTab === 'math' ? 'bg-white shadow-lg text-blue-900' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                <Calculator size={24} className={activeTab === 'math' ? 'text-blue-600' : ''} />
+                <span className="font-bold text-lg">【國一數學】思維邏輯重構</span>
+              </button>
+              <button 
+                onClick={() => setActiveTab('bio')}
+                className={`py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 ${activeTab === 'bio' ? 'bg-white shadow-lg text-green-900' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                <Microscope size={24} className={activeTab === 'bio' ? 'text-green-600' : ''} />
+                <span className="font-bold text-lg">【國一生物】科學大腦鍛煉</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Course Content */}
+          <div className="max-w-5xl mx-auto">
+            {activeTab === 'math' && (
+              <div className="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
+                <div className="order-2 md:order-1 space-y-6">
+                  <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100">
+                    <p className="text-slate-700 font-medium text-lg mb-4">
+                      從算術進化到邏輯演算。強調觀念內化，建立處理複雜問題的拆解能力。
+                    </p>
+                    <ul className="space-y-4">
+                      <li className="flex gap-4">
+                        <div className="w-8 h-8 rounded-full bg-blue-200 flex items-center justify-center text-blue-700 flex-shrink-0 mt-1">1</div>
+                        <div>
+                          <h4 className="font-bold text-slate-900">基礎紮根</h4>
+                          <p className="text-slate-600">強化四則運算、因倍數與比例觀念。</p>
+                        </div>
+                      </li>
+                      <li className="flex gap-4">
+                         <div className="w-8 h-8 rounded-full bg-blue-200 flex items-center justify-center text-blue-700 flex-shrink-0 mt-1">2</div>
+                        <div>
+                          <h4 className="font-bold text-slate-900">抽象轉換</h4>
+                          <p className="text-slate-600">引導進入代數與方程式領域。</p>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="order-1 md:order-2">
+                   <div className="rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition duration-500">
+                     <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Math Class" className="w-full h-80 object-cover" />
+                   </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'bio' && (
+              <div className="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
+                <div className="order-2 md:order-1 space-y-6">
+                  <div className="bg-green-50 p-6 rounded-2xl border border-green-100">
+                    <p className="text-slate-700 font-medium text-lg mb-4">
+                      用實驗證明直覺無法理解的知識。培養觀察、假設與驗證的科學精神。
+                    </p>
+                    <ul className="space-y-4">
+                      <li className="flex gap-4">
+                         <div className="w-8 h-8 rounded-full bg-green-200 flex items-center justify-center text-green-700 flex-shrink-0 mt-1">1</div>
+                        <div>
+                          <h4 className="font-bold text-slate-900">圖像演繹</h4>
+                          <p className="text-slate-600">e化教學將微觀機制具象化。</p>
+                        </div>
+                      </li>
+                      <li className="flex gap-4">
+                         <div className="w-8 h-8 rounded-full bg-green-200 flex items-center justify-center text-green-700 flex-shrink-0 mt-1">2</div>
+                        <div>
+                          <h4 className="font-bold text-slate-900">感官學習</h4>
+                          <p className="text-slate-600">四大指標實驗(青蛙解剖、液態氮、水火箭、去殼蛋)。</p>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="order-1 md:order-2">
+                   <div className="rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition duration-500">
+                     <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Science Experiment" className="w-full h-80 object-cover" />
+                   </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Roadmap Section */}
+      <section id="roadmap" className="py-20 bg-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-amber-600 font-bold tracking-wider uppercase mb-3">Roadmap</h2>
+            <h3 className="text-3xl md:text-4xl font-bold text-slate-900">| 全年度成長藍圖 (Roadmap)</h3>
+            <p className="text-slate-600 mt-4">我們將升學路徑拆解為四個關鍵階段，陪孩子走得更穩：</p>
+          </div>
+
+          <div className="grid md:grid-cols-1 gap-8 max-w-4xl mx-auto">
+            
+            {/* Stage 1 */}
+            <div className="bg-white rounded-2xl p-8 shadow-lg border-l-8 border-blue-500 hover:-translate-y-1 transition duration-300">
+              <div className="flex flex-col md:flex-row md:items-start justify-between mb-4">
+                <div>
+                  <span className="text-blue-500 font-bold tracking-wide text-sm uppercase">第一階段 (3月-5月)</span>
+                  <h4 className="text-2xl font-bold text-slate-900 mt-1">扎根期</h4>
+                </div>
+                <div className="mt-2 md:mt-0 px-4 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+                  目標：跨越難度斷層，儲備基礎戰力。
+                </div>
+              </div>
+              <div className="space-y-6">
+                <div>
+                  <h5 className="font-bold text-lg text-slate-800 mb-2">• 數理資優班 (3/11-5/30)</h5>
+                  <ul className="list-disc pl-5 space-y-2 text-slate-600">
+                    <li><span className="font-semibold text-slate-700">關鍵：</span>破解國中學科難度斷層，建立抽象思考與邏輯推理力。</li>
+                    <li><span className="font-semibold text-slate-700">時間：</span>每週三 13:30-15:30 數學及生物隔週進行課程。</li>
+                    <li className="bg-amber-50 p-2 rounded border border-amber-100"><span className="font-semibold text-amber-700">優惠：</span>校內生預繳國中費用，可享「數理資優班」優惠 (原價$3,500，校內生優惠價 $2,200，教材費另計)。</li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 className="font-bold text-lg text-slate-800 mb-2">● 國際劍橋英檢班</h5>
+                  <ul className="list-disc pl-5 space-y-2 text-slate-600">
+                    <li><span className="font-semibold text-slate-700">關鍵：</span>對標 KET/PET檢定、強化聽、說、讀、寫，儲備國中即戰力。</li>
+                    <li><span className="font-semibold text-slate-700">時間：</span>每週六 3 小時</li>
+                    <li><span className="font-semibold text-slate-700">備註：</span>課程期間皆開放預約試聽。</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Stage 2 */}
+            <div className="bg-white rounded-2xl p-8 shadow-lg border-l-8 border-cyan-500 hover:-translate-y-1 transition duration-300">
+              <div className="flex flex-col md:flex-row md:items-start justify-between mb-4">
+                <div>
+                  <span className="text-cyan-500 font-bold tracking-wide text-sm uppercase">第二階段 (6月)</span>
+                  <h4 className="text-2xl font-bold text-slate-900 mt-1">轉換期</h4>
+                </div>
+                <div className="mt-2 md:mt-0 px-4 py-1 bg-cyan-50 text-cyan-700 rounded-full text-sm font-medium">
+                  目標：畢業不留白，從心態到技能的全面轉型。
+                </div>
+              </div>
+              <div className="space-y-6">
+                <div>
+                  <h5 className="font-bold text-lg text-slate-800 mb-2">• 小六升國一畢業後銜接課程 (全天制 9:00-16:00)</h5>
+                  <ul className="list-disc pl-5 space-y-2 text-slate-600">
+                    <li><span className="font-semibold text-slate-700">特色：</span>提前熟習國一單元重點，提前熟習國中各科單元重點，包含社會全科(地理、歴史、公民、社會科學實驗)、國一國文(古文及現代文導讀、強化閱讀、國文寫作)</li>
+                    <li><span className="font-semibold text-slate-700">素養：</span>規劃烘焙、戶外教學等多元課程，培養組織架構與團隊合作力。</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Stage 3 */}
+            <div className="bg-white rounded-2xl p-8 shadow-lg border-l-8 border-amber-500 hover:-translate-y-1 transition duration-300 relative overflow-hidden">
+              <div className="flex flex-col md:flex-row md:items-start justify-between mb-4">
+                <div>
+                  <span className="text-amber-500 font-bold tracking-wide text-sm uppercase">第三階段 (7月-8月)</span>
+                  <h4 className="text-2xl font-bold text-slate-900 mt-1">衝刺期</h4>
+                </div>
+                <div className="mt-2 md:mt-0 px-4 py-1 bg-amber-50 text-amber-700 rounded-full text-sm font-medium">
+                  目標：暑期領先起跑，建立學科絕對優勢。
+                </div>
+              </div>
+              <ul className="space-y-3 text-slate-700">
+                <li className="flex items-start gap-3">
+                  <div className="bg-amber-100 text-amber-600 rounded px-2 font-bold text-sm mt-0.5">A</div>
+                  <span><strong>國一先修數/英：</strong>專業授課搭配扎實測驗(數學5hr/週、英文4hr/週)。</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="bg-amber-100 text-amber-600 rounded px-2 font-bold text-sm mt-0.5">B</div>
+                  <span><strong>國際英文菁英班：</strong>高階英語實力提升(需通過檢定入班)。</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="bg-amber-100 text-amber-600 rounded px-2 font-bold text-sm mt-0.5">C</div>
+                  <span><strong>國一生物：</strong>全e化電子白板授課，用圖像與動畫讓科學概念簡單上手。</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="bg-amber-100 text-amber-600 rounded px-2 font-bold text-sm mt-0.5">D</div>
+                  <span><strong>暑期多元營隊：</strong>(以實際課表5月底公告為主)</span>
+                </li>
+              </ul>
+            </div>
+
+             {/* Stage 4 */}
+            <div className="bg-white rounded-2xl p-8 shadow-lg border-l-8 border-indigo-500 hover:-translate-y-1 transition duration-300 relative overflow-hidden">
+              <div className="flex flex-col md:flex-row md:items-start justify-between mb-4">
+                <div>
+                  <span className="text-indigo-500 font-bold tracking-wide text-sm uppercase">第四階段 (9月開學)</span>
+                  <h4 className="text-2xl font-bold text-slate-900 mt-1">耶加中學部課程開始-啟航期</h4>
+                </div>
+                <div className="mt-2 md:mt-0 px-4 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium">
+                  目標：穩定步入軌道，展現卓越成效。
+                </div>
+              </div>
+               <div className="space-y-4 text-slate-700">
+                 <p className="font-semibold">開課時間：9月開學</p>
+                 <p>● 開課班級：國一英文JE7/J7、國一數學JM7、國一生物 BIO</p>
+                 <div>
+                   <p className="font-bold mb-2">● 課程特色：</p>
+                   <ul className="list-disc pl-5 space-y-1">
+                     <li>國一英文每週共板書授課3小時，測驗練習1小時</li>
+                     <li>國一數學每週共板書授課3小時，測驗練習2小時</li>
+                     <li>國一生物每週共板書授課3小時</li>
+                   </ul>
+                 </div>
+                 <p className="text-sm text-slate-500 bg-slate-100 p-2 rounded">● 備註：09月開學課表將在六月公布。</p>
+               </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Promotion Section */}
+      <section id="promo" className="py-20 bg-gradient-to-br from-slate-900 to-slate-800 text-white relative overflow-hidden">
+        {/* Abstract Shapes */}
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-amber-400 font-bold tracking-wider uppercase mb-3 flex items-center justify-center gap-2">
+              <Gift size={20} /> Exclusive Offer
+            </h2>
+            <h3 className="text-3xl md:text-5xl font-bold mb-6">| 耶加直升應援活動方案 (校內生適用)</h3>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Internal Parent Offer */}
+            <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10 hover:border-amber-500/50 transition duration-300">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center text-slate-900">
+                  <Star size={24} fill="currentColor" />
+                </div>
+                <div>
+                  <h4 className="text-2xl font-bold">1. 校內家長支線：【直升應援】</h4>
+                </div>
+              </div>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="text-amber-400 flex-shrink-0 mt-1" />
+                  <span>
+                    <strong>適用對象：</strong>現有耶加小六家長。
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="text-amber-400 flex-shrink-0 mt-1" />
+                  <span>
+                    <strong>報名優惠：</strong>預繳$3,000元報名耶加中學部，數理資優班學費由$3,500 &gt;&gt;&gt; <span className="text-amber-400 font-bold text-xl">$2,200</span> (教材費另計)。
+                  </span>
+                </li>
+                 <li className="flex items-start gap-3">
+                  <CheckCircle2 className="text-amber-400 flex-shrink-0 mt-1" />
+                  <span>
+                    <strong>介紹獎勵：</strong>成功介紹一位朋友報名中學部並預繳$3,000元，雙方各享$500折價券。
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="text-amber-400 flex-shrink-0 mt-1" />
+                  <span>
+                    <strong>抽獎權限：</strong>預繳成功即自動獲得iPad、AirPods 抽獎資格。
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Student Offer */}
+            <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10 hover:border-blue-400/50 transition duration-300">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                  <Users size={24} />
+                </div>
+                <div>
+                  <h4 className="text-2xl font-bold">2. 學生支線：【友我罩你】</h4>
+                </div>
+              </div>
+              <ul className="space-y-4">
+                 <li className="flex items-start gap-3">
+                  <CheckCircle2 className="text-blue-400 flex-shrink-0 mt-1" />
+                  <span>
+                    <strong>適用對象：</strong>在班學生。
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="text-blue-400 flex-shrink-0 mt-1" />
+                  <span>
+                    <strong>獎金機制(最高$1,000)：</strong><br/>
+                    ○ 階段1：被介紹人報名「數理資優班」 &gt;&gt;&gt;&gt; 核發 $500獎學金。<br/>
+                    ○ 階段2：被介紹人完成「開學註冊」 &gt;&gt;&gt;&gt; 核發 $500獎學金。
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="text-blue-400 flex-shrink-0 mt-1" />
+                  <span>
+                    <strong>抽獎機會：</strong>每成功介紹1人獲1次抽獎機會，採累計制(介紹越多，中獎率越高)
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <button 
+              onClick={handleRegistration}
+              className="bg-amber-500 hover:bg-amber-600 text-white px-10 py-4 rounded-full font-bold text-xl shadow-[0_0_20px_rgba(245,158,11,0.5)] transition transform hover:scale-105 flex items-center justify-center gap-3 mx-auto"
+            >
+              立即報名數理資優班 <ExternalLink size={24} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Locations Section */}
+      <section id="locations" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+           <div className="text-center mb-16">
+            <h2 className="text-slate-500 font-bold tracking-wider uppercase mb-3">Locations</h2>
+            <h3 className="text-3xl md:text-4xl font-bold text-slate-900">耶加中學部：專業校區分布</h3>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Campus 1 */}
+            <div className="group p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:border-amber-200 transition duration-300">
+              <div className="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-500 transition">
+                <MapPin size={24} />
+              </div>
+              <h4 className="text-xl font-bold text-slate-900 mb-2">旗艦校 A Plus STUDIO</h4>
+              <p className="text-slate-500 text-sm mb-4">文府國中對面/有福山國中接駁專車</p>
+              <a href="tel:07-310-8096" className="flex items-center gap-2 text-slate-700 font-bold hover:text-amber-600 transition">
+                <Phone size={18} /> 07-310-8096
+              </a>
+            </div>
+
+            {/* Campus 2 */}
+            <div className="group p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:border-amber-200 transition duration-300">
+              <div className="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-500 transition">
+                <MapPin size={24} />
+              </div>
+              <h4 className="text-xl font-bold text-slate-900 mb-2">耶加中學-左新校區</h4>
+              <p className="text-slate-500 text-sm mb-4">左營區曾子路290號</p>
+              <a href="tel:07-345-4681" className="flex items-center gap-2 text-slate-700 font-bold hover:text-amber-600 transition">
+                <Phone size={18} /> 07-345-4681
+              </a>
+            </div>
+
+            {/* Campus 3 */}
+            <div className="group p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:border-amber-200 transition duration-300">
+              <div className="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-500 transition">
+                <MapPin size={24} />
+              </div>
+              <h4 className="text-xl font-bold text-slate-900 mb-2">耶加中學-龍華校區</h4>
+              <p className="text-slate-500 text-sm mb-4">鼓山區富農路306號</p>
+              <a href="tel:07-522-7221" className="flex items-center gap-2 text-slate-700 font-bold hover:text-amber-600 transition">
+                <Phone size={18} /> 07-5227221
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="mb-4 text-white font-bold text-lg">A Plus Studio</p>
+          <p>© 2026 A Plus Studio 耶加教育機構. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;  幫我一字不漏的彙整成github可以部署的網頁
